@@ -64,7 +64,12 @@ function WebSocketStream(target, protocols, options) {
     if (coerceToBuffer && !(chunk instanceof Buffer)) {
       chunk = new Buffer(chunk, 'utf8')
     }
-    socket.send(chunk, next)
+    try {
+      socket.send(chunk, next)
+    } catch (e) {
+      console.error('websocket-stream catched exception while sending packet:')
+      console.error(e)
+    }
   }
 
   function socketWriteBrowser(chunk, enc, next) {
